@@ -13,9 +13,9 @@ def onClick(event, x, y, flags, param):
 
 
 def level_box_coord(shape_x, shape_y):
-    #x1, y1 = int(0.1438 * shape_x), int(0.8111 * shape_y)
-    x1, y1 = int(0.1641 * shape_x), int(0.8111 * shape_y)
-    x2, y2 = int(0.1730 * shape_x), int(0.8389 * shape_y)
+    # x1, y1 = int(0.1438 * shape_x), int(0.8111 * shape_y)
+    x1, y1 = int(0.1445 * shape_x), int(0.8150 * shape_y)
+    x2, y2 = int(0.1740 * shape_x), int(0.8389 * shape_y)
     return (x1, y1), (x2, y2)
 
 
@@ -23,3 +23,4 @@ def round_box_coord(shape_x, shape_y):
     x1, y1 = int(0.404 * shape_x), int(0.01 * shape_y)
     x2, y2 = int(0.4250 * shape_x), int(0.0306 * shape_y)
     return (x1, y1), (x2, y2)
+
