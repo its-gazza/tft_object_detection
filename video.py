@@ -13,7 +13,7 @@ vid.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
 fps = vid.get(cv2.CAP_PROP_FPS)
 count = start_frame
 # Pytesseract setup
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 # Initalize comparing variable
 previous_level_box = None
 previous_round_box = None
@@ -23,7 +23,7 @@ previous_round = None
 while (vid.isOpened()):
     # ==== Read in frame ==== #
     ret, frame = vid.read()
-    if frame.shape is not None:
+    if frame is not None:
         y, x, _ = frame.shape
     else:
         print("End of video")
