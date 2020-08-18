@@ -137,8 +137,32 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Pycharm
 .idea/
+
+# TF2 directory
+models
 
 # Video
 *.mp4
 *.jpg
+*.xml
+*.gif
+
+# Training folder 
+training/*
+!training/.gitkeep
+
+# pre-trained-models
+pre-trained-models/*
+!pre-trained-models/.gitkeep
+
+# exported-models
+exported-models/*
+!exported-models/.gitkeep
+
+# Video
+vid_*
+
+# Untitled notebooks
+Untitled*
