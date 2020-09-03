@@ -1,4 +1,5 @@
 import io
+import re
 import os
 import cv2
 import scipy.misc
@@ -6,11 +7,21 @@ import numpy as np
 import six
 import time
 from six import BytesIO
+from glob import glob
 import matplotlib
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 import tensorflow as tf
 from object_detection.utils import visualization_utils as viz_utils
+
+
+# Set memory growth to True so it won't crash
+gpus = tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
+
+# Video and model path
+model_path = 'exported-models/mobile_net/saved_model/'
+video_path = 'vid.mp4'
 
 def load_image_into_numpy_array(path):
   """Load an image from file into a numpy array.
@@ -33,49 +44,49 @@ def load_image_into_numpy_array(path):
 
 category_index = {
     1: {'id': 1, 'name': 'player'},
-    2: {'id': 2, 'name': 'bronze'},
-    3: {'id': 3, 'name': 'silver'},
-    4: {'id': 4, 'name': 'gold'}
+    2: {'id': 2, 'name': 'trait'}
 }
 
-start_time = time.time()
+# Load model
 tf.keras.backend.clear_session()
-detect_fn = tf.saved_model.load('exported-models/my_model/saved_model/')
-end_time = time.time()
-elapsed_time = end_time - start_time
-print('Elapsed time: ' + str(elapsed_time) + 's')
+detect_fn = tf.saved_model.load(model_path)
 
-import time
+vid = cv2.VideoCapture(video_path)
+count = 0
 
-image_dir = 'data/vid_0/raw/'
+while vid.isOpened():
+    done = False
+    ret, frame = vid.read()
+    if ret:
+      if done:
+        vid.release()
+        break
 
-elapsed = []
-for i in range(100):
-    image_path = os.path.join(image_dir, 'vid_' + str(i + 1) + '.jpg')
-    image_np = load_image_into_numpy_array(image_path)
-    input_tensor = np.expand_dims(image_np, 0)
-    start_time = time.time()
-    detections = detect_fn(input_tensor)
-    end_time = time.time()
-    elapsed.append(end_time - start_time)
+      input_tensor = np.expand_dims(frame, 0)
+      detections = detect_fn(input_tensor)
 
-    plt.rcParams['figure.figsize'] = [42, 21]
-    label_id_offset = 1
-    image_np_with_detections = image_np.copy()
-    viz_utils.visualize_boxes_and_labels_on_image_array(
-        image_np_with_detections,
-        detections['detection_boxes'][0].numpy(),
-        detections['detection_classes'][0].numpy().astype(np.int32),
-        detections['detection_scores'][0].numpy(),
-        category_index,
-        use_normalized_coordinates=True,
-        max_boxes_to_draw=200,
-        min_score_thresh=.2,
-        agnostic_mode=False)
+      label_id_offset = 1
+      image_np_with_detections = frame.copy()
+      viz_utils.visualize_boxes_and_labels_on_image_array(
+          image_np_with_detections,
+          detections['detection_boxes'][0].numpy(),
+          detections['detection_classes'][0].numpy().astype(np.int32),
+          detections['detection_scores'][0].numpy(),
+          category_index,
+          use_normalized_coordinates=True,
+          max_boxes_to_draw=200,
+          min_score_thresh=.6,
+          agnostic_mode=False)
 
-    cv2.imshow("Frame", image_np_with_detections)
-    cv2.imwrite("vid_"+str(i+1) + '.jpg', image_np_with_detections)
+      cv2.imshow("Frame", image_np_with_detections)
 
+      count += 30
+      vid.set(1, count)
 
-mean_elapsed = sum(elapsed) / float(len(elapsed))
-print('Elapsed time: ' + str(mean_elapsed) + ' second per image')
+      if cv2.waitKey(1) and 0xFF == ord('q'):
+        print("Pressed Q")
+        done = True
+
+    else:
+      vid.release()
+      break
