@@ -160,6 +160,7 @@ pre-trained-models/*
 # exported-models
 exported-models/*
 !exported-models/.gitkeep
+!exported-models/mobile_net
 
 # Video
 vid_*

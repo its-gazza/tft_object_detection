@@ -21,7 +21,11 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 # Video and model path
 model_path = 'exported-models/mobile_net/saved_model/'
+<<<<<<< HEAD
 video_path = 'data/vid_1/vid.mp4'
+=======
+video_path = 'vid.mp4'
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
 
 def load_image_into_numpy_array(path):
   """Load an image from file into a numpy array.
@@ -53,7 +57,10 @@ detect_fn = tf.saved_model.load(model_path)
 
 vid = cv2.VideoCapture(video_path)
 count = 0
+<<<<<<< HEAD
 img_count = 0
+=======
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
 
 while vid.isOpened():
     done = False
@@ -80,11 +87,16 @@ while vid.isOpened():
           agnostic_mode=False)
 
       cv2.imshow("Frame", image_np_with_detections)
+<<<<<<< HEAD
       #cv2.imwrite(f"./tmp/img_{img_count}.jpg", image_np_with_detections)
 
 
       count += 240
       img_count += 1
+=======
+
+      count += 30
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
       vid.set(1, count)
 
       if cv2.waitKey(1) and 0xFF == ord('q'):

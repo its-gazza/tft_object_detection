@@ -1,8 +1,16 @@
 # Object Detection for TFT
 
+<<<<<<< HEAD
 ![](output.gif)
 
 ## Setup
+=======
+## Setup
+Files:  
+* Images and XML: `images/raw`
+* label_map.pbtxt: under `annotations`
+
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
 Object detection module:
 ```
 git clone https://github.com/tensorflow/models.git
@@ -14,6 +22,7 @@ cp object_detection/packages/tf2/setup.py .
 python -m pip install .
 ```
 
+<<<<<<< HEAD
 ## Step 1: Get image and do image labelling
 1. Create folder under `data` and create a subfolder called `raw` (e.g. ./data/vid_0/raw)
 1. Download video using [download_video.py](./preprocess/video/download_video.py) 
@@ -34,12 +43,16 @@ python preprocess/video/generate_image.py \
 Note: you hsould annotatte in the PascalVOC format, it should return XML files
 
 ## Step 2: Create `record` files
+=======
+## Step 1: Create `record` files
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
 1. Split the data:
 ```
 python preprocess/tfrecord/partition_dataset.py -x -i data/vid_2/raw -o data/vid_2 -r 0.1
 ```
 
 
+<<<<<<< HEAD
 2. Generate record file
 ```
 python preprocess/tfrecord/generate_tfrecord.py \
@@ -62,6 +75,24 @@ you can use any model you want from [here](https://github.com/tensorflow/models/
     1. num_classes
     1. fine_tune_checkpoint_type to `detection`
     1. reduce batch_size if you're running out of memories
+=======
+1. Generate record file
+```
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_0/train -l data/annotations/label_map.pbtxt -o data/annotations/train_0.record
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_0/test -l data/annotations/label_map.pbtxt -o data/annotations/test_0.record
+
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_1/train -l data/annotations/label_map.pbtxt -o data/annotations/train_1.record
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_1/test -l data/annotations/label_map.pbtxt -o data/annotations/test_1.record
+
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_2_/train -l data/annotations/label_map.pbtxt -o data/annotations/train_2_.record
+python preprocess/tfrecord/generate_tfrecord.py -x data/vid_2_/test -l data/annotations/label_map.pbtxt -o data/annotations/test_2_.record
+```
+
+## Step 2: Configure pipeline file
+1. Copy pre-trained model to `pre-trained-models`
+1. Copy pre-trained model's pipeline.config to `model/ssd_resnet`
+1. Update pipeline config file
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
 
 ## Step 3: Train model
 Copy `model_train_tf2.py` and `exporter_main_V2.py` to root path
@@ -73,6 +104,7 @@ python training/model_main_tf2.py --model_dir training/mobile_net --pipeline_con
 ```
 
 ## Step 4: Export model
+<<<<<<< HEAD
 ```shell
 python exporter_main_v2.py \
     --input_type image_tensor \
@@ -88,3 +120,25 @@ specify the `saved_model` as this is where the model is
 ```shell
 python ./inference/inference_vid.py
 ```
+=======
+```
+python exporter_main_v2.py --input_type image_tensor --pipeline_config_path pre-trained-models/ssd_mobilenet_v2_fpnlite_640x640_coco17_tpu-8/pipeline.config --trained_checkpoint_dir training/test --output_directory exported-models/mobile_net
+```
+
+## Appendix:
+label_map.pbtxt:
+
+```
+item {
+    id: 1
+    name: 'cat'
+}
+
+item {
+    id: 2
+    name: 'dog'
+}
+```
+
+114
+>>>>>>> 3b785d209387e5bf3f41673a9ec15cca4c300415
