@@ -13,7 +13,7 @@ optional arguments:
   -x, --xml             Set this flag if you want the xml annotation files to be processed and copied over.
 
 Useage:
-python partition_dataset.py -x -i ./data/vid_0/raw -r 0.1
+python partition_dataset.py -x -o ./data/vid_0 -i ./data/vid_0/raw -r 0.1
 """
 import os
 import re

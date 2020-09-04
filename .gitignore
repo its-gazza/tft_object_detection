@@ -166,3 +166,6 @@ vid_*
 
 # Untitled notebooks
 Untitled*
+
+# tf record files
+*.record
