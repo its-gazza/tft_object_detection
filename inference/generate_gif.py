@@ -9,7 +9,7 @@ filenames = glob.glob('tmp/img_*.jpg')
 filenames = sorted(filenames)
 last = -1
 images = []
-for i in range(368):
+for i in range(10, 184):
     filepath = f"./tmp/img_{i}.jpg"
     image = imageio.imread(filepath)
     images.append(image)

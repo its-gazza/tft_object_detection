@@ -80,10 +80,10 @@ while vid.isOpened():
           agnostic_mode=False)
 
       cv2.imshow("Frame", image_np_with_detections)
-      #cv2.imwrite(f"./tmp/img_{img_count}.jpg", image_np_with_detections)
+      cv2.imwrite(f"./tmp/img_{img_count}.jpg", image_np_with_detections)
 
 
-      count += 240
+      count += 480
       img_count += 1
       vid.set(1, count)
 
